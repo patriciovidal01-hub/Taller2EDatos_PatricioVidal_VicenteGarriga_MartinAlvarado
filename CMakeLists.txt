@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 4.3)
+project(Taller2EDatos_PatricioVidal_VicenteGarriga_MartinAlvarado)
+
+set(CMAKE_CXX_STANDARD 20)
+
+add_executable(Taller2EDatos_PatricioVidal_VicenteGarriga_MartinAlvarado main.cpp)
