@@ -12,6 +12,9 @@ add_executable(Taller2EDatos_PatricioVidal_VicenteGarriga_MartinAlvarado
         Lista_Servicios.cpp
         Stack.cpp
         NodoArbolDecision.h
+        ArbolDecision.h
+        ArbolDecision.cpp
+        NodoArbolDecision.cpp
 )
 
 
