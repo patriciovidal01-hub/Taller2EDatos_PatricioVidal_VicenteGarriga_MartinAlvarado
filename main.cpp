@@ -12,6 +12,22 @@
 
 using namespace std;
 
+//valida si es duplicado y valida si el el valor para los atributos realmente son binarios o no
+bool idDuplicado(Queue* colaPacientes, const string& id) {
+    Nodo<Paciente>* aux = colaPacientes->getCabeza();
+    while (aux != nullptr) {
+        if (aux->getDato().getId() == id) {
+            return true;
+        }
+        aux = aux->getSiguiente();
+    }
+    return false;
+}
+ 
+bool esBinario(int valor) {
+    return valor == 0 || valor == 1;
+}
+
 void leerArchivo(Queue* colaPacientes ) {
     ifstream archivo("pacientes.txt");
     string linea;
