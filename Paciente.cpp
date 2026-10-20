@@ -7,8 +7,9 @@
 #include <string>
 using std::string;
 
-Paciente:: Paciente(string id, string nombre, int edad, double temperatura, int presionArterial, int dolor, string tipoDolor
-,int trauma, int sistemasNeurologicos, int RequiereCirugia, int diasHospitalizacion):
+Paciente::Paciente(string id, string nombre, int edad, double temperatura,
+int presionArterial, int dolor, string tipoDolor, int trauma,
+int sintomasNeurologicos, int requiereCirugia, int diasHospitalizacion):
 
 id(id), nombre(nombre), edad(edad), temperatura(temperatura),
 presionArterial(presionArterial), dolor(dolor), tipoDolor(tipoDolor), trauma(trauma),
