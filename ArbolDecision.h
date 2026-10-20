@@ -8,7 +8,7 @@
 
 class ArbolDecision {
 private:
-    NodoArbolDecision<int>* raiz;
+    NodoArbolDecision* raiz;
 
 public:
     ArbolDecision(NodoArbolDecision* raiz);
