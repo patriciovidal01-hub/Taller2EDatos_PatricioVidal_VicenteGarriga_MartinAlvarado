@@ -29,4 +29,5 @@ void ArbolDecision::crearArbol(NodoArbolDecision* raiz) {
     NodoArbolDecision* dolor = new NodoArbolDecision(DOLOR, MAYOR_IGUAL, 8, urgencia, edad);
 
     this->raiz = dolor;
+    //HOLA
 }
