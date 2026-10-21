@@ -9,7 +9,7 @@ ArbolDecision::~ArbolDecision() {}
 
 void ArbolDecision::crearArbol(NodoArbolDecision* raiz) {
     // Nodos Hoja
-    NodoArbolDecision* urgencia = new NodoArbolDecision("Urgencia");
+    NodoArbolDecision* urgencia = new NodoArbolDecision("Urgencias");
     NodoArbolDecision* pediatria = new NodoArbolDecision("Pediatria");
     NodoArbolDecision* cardiologia = new NodoArbolDecision("Cardiologia");
     NodoArbolDecision* cirugia = new NodoArbolDecision("Cirugia");
@@ -30,3 +30,49 @@ void ArbolDecision::crearArbol(NodoArbolDecision* raiz) {
 
     this->raiz = dolor;
 }
+
+
+NodoArbolDecision* ArbolDecision::evaluar(Paciente paciente) {
+    NodoArbolDecision* nuevoNodo = this->raiz;
+    double datoPaciente = 0;
+    switch (this->raiz->getAtributo()) {
+        case EDAD:
+            datoPaciente = paciente.getEdad();
+            break;
+        case TEMPERATURA:
+            datoPaciente = paciente.getTemperatura();
+            break;
+        case PRESION:
+            datoPaciente = paciente.getPresionArterial();
+            break;
+        case DOLOR:
+            datoPaciente = paciente.getDolor();
+            break;
+        case TIPODOLOR:
+            // Hacer otro switch para una cadena saber que tipo de dolor corresponde a cada numero.
+            break;
+        case TRAUMA:
+            datoPaciente = paciente.getTrauma();
+            break;
+        case SINTOMAS:
+            datoPaciente = paciente.getSintomasNeurologicos();
+            break;
+        case CIRUGIA:
+            datoPaciente = paciente.getRequiereCirugia();
+            break;
+        case HOSPITALIZACION:
+            datoPaciente = paciente.getDiasHospitalizacion();
+            break;
+    }
+    nuevoNodo = this->raiz->preguntar(datoPaciente);
+    if (esServicio(nuevoNodo)) {
+       return nuevoNodo;
+    }
+};
+
+bool ArbolDecision::esServicio(NodoArbolDecision *nodo) {
+  if (nodo->izqNodo() == nullptr && nodo->derNodo() == nullptr) {
+      return true;
+  }
+     return false;
+};

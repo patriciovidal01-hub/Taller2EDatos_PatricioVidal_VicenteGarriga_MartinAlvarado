@@ -5,6 +5,8 @@
 #ifndef TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_ARBOLDECISION_H
 #define TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_ARBOLDECISION_H
 #include "NodoArbolDecision.h"
+#include "Paciente.h"
+#include "Servicio.h"
 
 class ArbolDecision {
 private:
@@ -15,6 +17,8 @@ public:
     ~ArbolDecision();
 
     void crearArbol(NodoArbolDecision* raiz);
+    NodoArbolDecision* evaluar(Paciente paciente);
+    bool esServicio(NodoArbolDecision* nodo);
 };
 
 

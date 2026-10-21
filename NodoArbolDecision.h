@@ -14,15 +14,18 @@ private:
     std::string resultado;
     Atributo atributo;
     Operador operador;
-    int comparar;
-    int servicio;
+    double comparar;
+    double servicio;
     NodoArbolDecision* izq;
     NodoArbolDecision* der;
 
 public:
-    NodoArbolDecision(Atributo atributo, Operador operador, int comparar, NodoArbolDecision* izq, NodoArbolDecision* der );
+    NodoArbolDecision(Atributo atributo, Operador operador, double comparar, NodoArbolDecision* izq, NodoArbolDecision* der );
     NodoArbolDecision(std::string resultado);
-    NodoArbolDecision* preguntar(int datoPaciente);
+    NodoArbolDecision* preguntar(double datoPaciente);
+    NodoArbolDecision* izqNodo();
+    NodoArbolDecision* derNodo();
+    Atributo getAtributo();
     ~NodoArbolDecision();
 };
 

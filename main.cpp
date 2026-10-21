@@ -44,8 +44,8 @@ void leerArchivo(Queue* colaPacientes ) {
 
             int edad = stoi(edad_str);
 
-
-            Paciente p(id, nombre, edad, servicio);
+            // AGREGAR DATOS FALTANTES
+            Paciente p(id, nombre, edad, servicio); // Cambiar
             colaPacientes->agregarNodo(new Nodo<Paciente>(p));
         }
         archivo.close();
