@@ -35,7 +35,7 @@ void leerArchivo(Queue* colaPacientes ) {
     if (archivo.is_open()) {
         while (getline(archivo, linea)) {
             stringstream ss(linea);
-            string id, nombre, edad_str, servicio;
+            string id, nombre, edad_str, temp_str, presion_str, dolor_str, tipo_dolor_str, trauma_str, sint_neu_str, cirugia_str, dias_hospitalizacion_str;
 
             getline(ss, id, ';');
             getline(ss, nombre, ';');
@@ -51,11 +51,32 @@ void leerArchivo(Queue* colaPacientes ) {
 
             //Aca hacemos las conversiones de los datos papus y tambien hare los de 0 a 1 en true y false
             //en proceso....
-            int edad = stoi(edad_str);
 
-            // AGREGAR DATOS FALTANTES
-            Paciente p(id, nombre, edad, servicio); // Cambiar
-            colaPacientes->agregarNodo(new Nodo<Paciente>(p));
+            try{
+            int edad = stoi(edad_str);
+            float temperatura = stof(temp_str);
+            int presion = stoi(presion_str);
+            int nivel_dolor = stoi(dolor_str);
+            
+            int trauma = stoi(trauma_str);
+            int sintomas_neuro = stoi(sint_neu_str);
+            int cirugia = stoi(cirugia_str);
+                
+            int dias_hospitalizacion = stoi(dias_hospitalizacion_str);
+
+                //Aca hacemos la validacion de que sea 0"s y 1"s wazaaa.
+                if(esBinario(trauma) && esBinario(sintomas_neuro) && esBinario(cirugia)){
+                   Paciente p(id, nombre, edad, temperatura, presion, nivel_dolor, tipo_dolor_str, trauma, sintomas_neuro, cirugia, dias_hospitalizacion ); // Cambiar
+                    colaPacientes->agregarNodo(new Nodo<Paciente>(p));
+                }        
+                else {
+                    cout << "Error: Datos de confirmacion inválidos en el paciente " << id << endl;
+                }
+            } 
+            catch (const exception& e) {
+                cout << "Error Desconocido, Algunos o todos los datos del paciente estan corruptos y son ilegibles" << endl;
+                continue;
+            }
         }
         archivo.close();
         cout << "Archivo cargado correctamente en la Cola." << endl;
