@@ -49,8 +49,8 @@ void leerArchivo(Queue* colaPacientes ) {
             getline(ss, cirugia_str, ';');
             getline(ss, dias_hospitalizacion_str, ';'); 
 
-            //Aca hacemos las conversiones de los datos papus y tambien hare los de 0 a 1 en true y false
-            //en proceso....
+            //Aca hacemos las conversiones de los datos papus
+            //Finalizado
 
             try{
             int edad = stoi(edad_str);
