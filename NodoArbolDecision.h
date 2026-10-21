@@ -22,6 +22,7 @@ private:
 public:
     NodoArbolDecision(Atributo atributo, Operador operador, int comparar, NodoArbolDecision* izq, NodoArbolDecision* der );
     NodoArbolDecision(std::string resultado);
+    NodoArbolDecision* preguntar(int datoPaciente);
     ~NodoArbolDecision();
 };
 
