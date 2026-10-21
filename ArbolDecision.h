@@ -16,7 +16,7 @@ public:
     ArbolDecision(NodoArbolDecision* raiz);
     ~ArbolDecision();
 
-    void crearArbol(NodoArbolDecision* raiz);
+    void crearArbol();
     NodoArbolDecision* evaluar(Paciente paciente);
     bool esServicio(NodoArbolDecision* nodo);
 };

@@ -4,20 +4,21 @@
 
 #ifndef TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_NODOARBOLDECISION_H
 #define TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_NODOARBOLDECISION_H
-#include <string>;
+#include <string>
 
 enum Operador { MENOR, MENOR_IGUAL, IGUAL, MAYOR, MAYOR_IGUAL };
 enum Atributo { EDAD, TEMPERATURA, PRESION, DOLOR, TIPODOLOR, TRAUMA, SINTOMAS, CIRUGIA, HOSPITALIZACION };
 
 class NodoArbolDecision {
 private:
-    std::string resultado;
     Atributo atributo;
     Operador operador;
     double comparar;
     double servicio;
     NodoArbolDecision* izq;
     NodoArbolDecision* der;
+    std::string resultado;
+    std::string strop;
 
 public:
     NodoArbolDecision(Atributo atributo, Operador operador, double comparar, NodoArbolDecision* izq, NodoArbolDecision* der );
@@ -26,6 +27,8 @@ public:
     NodoArbolDecision* izqNodo();
     NodoArbolDecision* derNodo();
     Atributo getAtributo();
+    std::string getStrop();
+    double getComparar();
     ~NodoArbolDecision();
 };
 
