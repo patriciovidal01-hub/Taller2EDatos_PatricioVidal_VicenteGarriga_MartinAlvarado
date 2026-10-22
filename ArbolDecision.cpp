@@ -5,7 +5,7 @@
 #include "ArbolDecision.h"
 #include <iostream>
 
-ArbolDecision::ArbolDecision(NodoArbolDecision* raiz) : raiz(raiz) {}
+ArbolDecision::ArbolDecision() : raiz(nullptr) {}
 ArbolDecision::~ArbolDecision() {}
 
 void ArbolDecision::crearArbol() {
@@ -78,7 +78,9 @@ NodoArbolDecision* ArbolDecision::evaluar(Paciente paciente) {
         }
         std::cout << ruta << nuevoNodo->getStrop() << nuevoNodo->getComparar();
         nuevoNodo = nuevoNodo->preguntar(datoPaciente);
-        std::cout << " -> ";
+        if (!esServicio(nuevoNodo)) {
+            std::cout << " -> ";
+        }
     }
     return nuevoNodo;
 };

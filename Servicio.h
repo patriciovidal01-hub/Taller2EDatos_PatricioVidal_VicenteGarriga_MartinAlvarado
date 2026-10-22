@@ -4,17 +4,17 @@
 
 #ifndef TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_SERVICIO_H
 #define TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_SERVICIO_H
-#include "Lista_Pacientes.h"
+#include "AVL.h"
 
 class Servicio {
     private:
         std::string servicio;
-        Lista_Pacientes* pacientes;
+        AVL* pacientes;
     public:
-        Servicio(std::string servicio, Lista_Pacientes* lista);
+        Servicio(std::string servicio, AVL* avl);
         ~Servicio();
         std::string getServicio();
-        Lista_Pacientes* getPacientes();
+        AVL* getPacientes();
         int getNumPacientes();
         void mostrarPacientes();
 };

@@ -8,7 +8,10 @@
 #include "Lista_Servicios.h"
 #include "Lista_Pacientes.h"
 #include <limits>
-#include "Stack.h"
+
+#include "ArbolDecision.h"
+#include "AVL.h"
+#include "NodoArbolDecision.h"
 
 using namespace std;
 
@@ -91,15 +94,17 @@ void llenarServicios (Lista_Servicios* lista_servicios) {
         "Traumatologia", "Cirugia", "Pediatria", "Hospitalizacion"};
 
     for (string s : servicios) {
-        Lista_Pacientes* lista = new Lista_Pacientes();
-        Servicio servicio = Servicio(s, lista);
+        AVL* avl = new AVL();
+        Servicio servicio = Servicio(s, avl);
         lista_servicios->agregarNodo(new Nodo<Servicio>(servicio));
     }
 }
 
 
-void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios, Stack* historial) {
-    if (colaPacientes->cantidadPacientes() != 0) {
+void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios) {
+    ArbolDecision* arbolDecision = new ArbolDecision();
+    arbolDecision->crearArbol();
+    if (colaPacientes->cantidadPacientes() > 0) {
         cout << " =========== Pacientes en espera =========== " << endl;
         colaPacientes->mostrarPacientes();
 
@@ -121,6 +126,13 @@ void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios, St
         for (int i = 0; i < numeroAtender; i++) {
             Nodo<Paciente>* nodo = colaPacientes->getCabeza();
             Paciente p = nodo->getDato();
+            NodoArbolDecision* resultado = arbolDecision->evaluar(p);
+
+            // METODO EN MAIN PARA DETERMINAR SERVICIO
+
+
+            // EMPIEZA EL ARBOL DE DECISION PARA CONSEGUIR EL SERVICIO
+
             Nodo<Servicio>* servicioPaciente = lista_servicios->encontrarServicio(nodo->getDato().getServicio());
             if (servicioPaciente != nullptr) {
                 servicioPaciente->getDato().getPacientes()->agregarNodo(new Nodo<Paciente>(p));

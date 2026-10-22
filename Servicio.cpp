@@ -5,18 +5,18 @@
 #include "Servicio.h"
 using namespace std;
 
-Servicio::Servicio(string servicio, Lista_Pacientes* lista) : servicio(servicio), pacientes(lista) {}
+Servicio::Servicio(string servicio, AVL* avl) : servicio(servicio), pacientes(avl) {}
 Servicio::~ Servicio() {}
 
 string Servicio ::getServicio() {
     return servicio;
 }
 
-Lista_Pacientes* Servicio::getPacientes() {
+AVL* Servicio::getPacientes() {
     return pacientes;
 }
 
-int Servicio::getNumPacientes() {
+int Servicio::getNumPacientes() { /// CAMBIAR METODO
     Nodo<Paciente>* paciente = pacientes->getCabeza();
     int contador = 0;
     while (paciente != nullptr) {
@@ -26,7 +26,7 @@ int Servicio::getNumPacientes() {
     return contador;
 }
 
-void Servicio::mostrarPacientes() {
+void Servicio::mostrarPacientes() { /// CAMBIAR METODO
     Nodo<Paciente>* aux = pacientes->getCabeza();
     while (aux != nullptr) {
         Paciente paciente = aux->getDato();

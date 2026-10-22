@@ -7,7 +7,7 @@
 #include <string>
 using std::string;
 
-Paciente::Paciente(string id, string nombre, int edad, double temperatura,
+Paciente::Paciente(string id, string nombre, int edad, float temperatura,
 int presionArterial, int dolor, string tipoDolor, int trauma,
 int sintomasNeurologicos, int requiereCirugia, int diasHospitalizacion):
 
@@ -30,7 +30,7 @@ int Paciente::getEdad() const{
     return edad;
 }
 
-double Paciente::getTemperatura() const {
+float Paciente::getTemperatura() const {
     return temperatura;
 }
  

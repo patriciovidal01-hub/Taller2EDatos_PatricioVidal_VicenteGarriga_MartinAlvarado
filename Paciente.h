@@ -15,7 +15,7 @@ class Paciente {
         std::string id;
         std::string nombre;
         int edad;
-        double temperatura;
+        float temperatura;
         int presionArterial;
         int dolor;
         std::string tipoDolor;
@@ -25,7 +25,7 @@ class Paciente {
         int diasHospitalizacion;
         std::string servicio;
     public:
-        Paciente(std::string id, std::string nombre, int edad, double temperatura,
+        Paciente(std::string id, std::string nombre, int edad, float temperatura,
                  int presionArterial, int dolor, std::string tipoDolor, int trauma,
                  int sintomasNeurologicos, int requiereCirugia, int diasHospitalizacion);
         ~Paciente();
@@ -33,7 +33,7 @@ class Paciente {
         std::string getId() const;
         std::string getNombre() const;
         int getEdad() const;
-        double getTemperatura() const;
+        float getTemperatura() const;
         int getPresionArterial() const;
         int getDolor() const;
         std::string getTipoDolor() const;

@@ -13,9 +13,8 @@ private:
     NodoArbolDecision* raiz;
 
 public:
-    ArbolDecision(NodoArbolDecision* raiz);
+    ArbolDecision();
     ~ArbolDecision();
-
     void crearArbol();
     NodoArbolDecision* evaluar(Paciente paciente);
     bool esServicio(NodoArbolDecision* nodo);
