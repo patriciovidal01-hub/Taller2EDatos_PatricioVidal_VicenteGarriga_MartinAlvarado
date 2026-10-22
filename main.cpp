@@ -8,7 +8,6 @@
 #include "Lista_Servicios.h"
 #include "Lista_Pacientes.h"
 #include <limits>
-
 #include "ArbolDecision.h"
 #include "AVL.h"
 #include "NodoArbolDecision.h"
@@ -104,6 +103,7 @@ void llenarServicios (Lista_Servicios* lista_servicios) {
 void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios) {
     ArbolDecision* arbolDecision = new ArbolDecision();
     arbolDecision->crearArbol();
+    bool noServicio = false;
     if (colaPacientes->cantidadPacientes() > 0) {
         cout << " =========== Pacientes en espera =========== " << endl;
         colaPacientes->mostrarPacientes();
@@ -129,29 +129,20 @@ void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios) {
             NodoArbolDecision* resultado = arbolDecision->evaluar(p);
 
             // METODO EN MAIN PARA DETERMINAR SERVICIO
+            if (lista_servicios->encontrarServicio(resultado->getResultado()) != nullptr) {
+                Nodo<Servicio>* nodoS = lista_servicios->encontrarServicio(resultado->getResultado());
+                Servicio s = nodoS->getDato();
+                AVL* avl = s.getPacientes();
+                avl->insertar(p);
+                p.setServicio(resultado->getResultado());
+                cout << p.getNombre() << " fue enviado a " << p.getServicio() << endl;
+                cout << "Paciente insertado en " << p.getServicio() << endl;
 
-
-            // EMPIEZA EL ARBOL DE DECISION PARA CONSEGUIR EL SERVICIO
-
-            Nodo<Servicio>* servicioPaciente = lista_servicios->encontrarServicio(nodo->getDato().getServicio());
-            if (servicioPaciente != nullptr) {
-                servicioPaciente->getDato().getPacientes()->agregarNodo(new Nodo<Paciente>(p));
-                historial->push(new Nodo<Paciente>(p));
+            } else {
+                bool noServicio = true;
+                cout << "No hay servicio al que se pueda mandar" << endl;
             }
             colaPacientes->eliminarCabeza();
-
-
-            cout << "ID: " << p.getId() << endl;
-            cout << "Nombre: " << p.getNombre() << endl;
-            cout << "Edad: " << p.getEdad() << endl;
-            cout << "Servicio: " << p.getServicio() << endl;
-            cout << endl;
-            if (servicioPaciente != nullptr) {
-                cout << "Paciente fue enviado a " << p.getServicio() << endl;
-            } else {
-                cout << "El servicio del paciente no existe" << endl;
-            }
-
         }
     } else {
         cout << "No hay pacientes para atender" << endl;
@@ -186,17 +177,11 @@ void verDepartamentos(Lista_Servicios* lista_servicios){
     cout << endl;
 }
 
-void revisarHistorial(Stack* historial) {
-    cout << "=========== Historial de ultimas atenciones del hospital ===========" << endl;
-    historial->mostrarHistorial();
-}
-
 int main() {
     Queue* colaPacientes = new Queue();
     leerArchivo(colaPacientes);
     Lista_Servicios* servicios = new Lista_Servicios();
     llenarServicios(servicios);
-    Stack* historial = new Stack();
 
     string opcion;
 
@@ -204,19 +189,18 @@ int main() {
         cout << " =========== Hospital Marmaja =========== " << endl;
         cout << "1. Atender pacientes " << endl;
         cout << "2. Ver departamento " << endl;
-        cout << "3. Revisar historial de atencion " << endl;
+        cout << "3. Buscar paciente " << endl;
         cout << "4. Salir " << endl;
 
         cin >> opcion;
 
         if (opcion == "1") {
-            atenderPacientes(colaPacientes, servicios, historial);
+            atenderPacientes(colaPacientes, servicios);
 
         } else if (opcion == "2") {
             verDepartamentos(servicios);
 
         } else if (opcion == "3") {
-            revisarHistorial(historial);
 
         } else if (opcion == "4") {
             cout << "Cerrando sistema...." << endl;
@@ -227,7 +211,6 @@ int main() {
         }
 
     } while (opcion != "4");
-    delete historial;
     delete servicios;
     delete colaPacientes;
     return 0;

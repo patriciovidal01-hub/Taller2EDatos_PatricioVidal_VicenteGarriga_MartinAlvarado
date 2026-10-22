@@ -76,11 +76,13 @@ NodoArbolDecision* ArbolDecision::evaluar(Paciente paciente) {
                 ruta = "Hospitalizacion";
                 break;
         }
-        std::cout << ruta << nuevoNodo->getStrop() << nuevoNodo->getComparar();
+        std::cout << ruta << " " << nuevoNodo->getStrop() << " " << nuevoNodo->getComparar();
         nuevoNodo = nuevoNodo->preguntar(datoPaciente);
         if (!esServicio(nuevoNodo)) {
-            std::cout << " -> ";
+            std::cout << " -> " ;
         }
+        std::cout << std::endl;
+
     }
     return nuevoNodo;
 };

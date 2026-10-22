@@ -72,8 +72,11 @@ std::string NodoArbolDecision::getStrop() {
     return this->strop;
 }
 
-double NodoArbolDecision::getComparar() {
+float NodoArbolDecision::getComparar() {
     return comparar;
 }
 
+std::string NodoArbolDecision::getResultado() {
+    return this->resultado;
+}
 NodoArbolDecision::~NodoArbolDecision(){}

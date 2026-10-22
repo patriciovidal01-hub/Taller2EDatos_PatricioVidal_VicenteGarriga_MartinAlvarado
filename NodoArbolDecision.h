@@ -28,7 +28,8 @@ public:
     NodoArbolDecision* derNodo();
     Atributo getAtributo();
     std::string getStrop();
-    double getComparar();
+    float getComparar();
+    std::string getResultado();
     ~NodoArbolDecision();
 };
 
