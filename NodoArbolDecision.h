@@ -24,8 +24,8 @@ public:
     NodoArbolDecision(Atributo atributo, Operador operador, double comparar, NodoArbolDecision* izq, NodoArbolDecision* der );
     NodoArbolDecision(std::string resultado);
     NodoArbolDecision* preguntar(double datoPaciente);
-    NodoArbolDecision* izqNodo();
-    NodoArbolDecision* derNodo();
+    NodoArbolDecision* getIzq();
+    NodoArbolDecision* getDer();
     Atributo getAtributo();
     std::string getStrop();
     float getComparar();

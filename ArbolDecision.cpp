@@ -6,7 +6,18 @@
 #include <iostream>
 
 ArbolDecision::ArbolDecision() : raiz(nullptr) {}
-ArbolDecision::~ArbolDecision() {}
+ArbolDecision::~ArbolDecision() {
+    liberar(this->raiz);
+}
+
+void ArbolDecision::liberar(NodoArbolDecision* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+    liberar(nodo->getIzq());
+    liberar(nodo->getDer());
+    delete nodo;
+}
 
 void ArbolDecision::crearArbol() {
     // Nodos Hoja
@@ -88,7 +99,7 @@ NodoArbolDecision* ArbolDecision::evaluar(Paciente paciente) {
 };
 
 bool ArbolDecision::esServicio(NodoArbolDecision *nodo) {
-  if (nodo->izqNodo() == nullptr && nodo->derNodo() == nullptr) {
+  if (nodo->getIzq() == nullptr && nodo->getDer() == nullptr) {
       return true;
   }
      return false;

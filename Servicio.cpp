@@ -17,20 +17,9 @@ AVL* Servicio::getPacientes() {
 }
 
 int Servicio::getNumPacientes() { /// CAMBIAR METODO
-    // Nodo<Paciente>* paciente = pacientes->getCabeza();
-    // int contador = 0;
-    // while (paciente != nullptr) {
-    //     paciente = paciente->getSiguiente();
-    //     contador++;
-    // }
-    // return contador;
+   return pacientes->cantidad();
 }
 
 void Servicio::mostrarPacientes() { /// CAMBIAR METODO
-    // Nodo<Paciente>* aux = pacientes->getCabeza();
-    // while (aux != nullptr) {
-    //     Paciente paciente = aux->getDato();
-    //     cout << paciente.getNombre() << "  (" << paciente.getEdad() << ") "<< endl;
-    //     aux = aux->getSiguiente();
-    // }
+   pacientes->mostrarInorden();
 }

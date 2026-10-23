@@ -100,10 +100,8 @@ void llenarServicios (Lista_Servicios* lista_servicios) {
 }
 
 
-void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios) {
-    ArbolDecision* arbolDecision = new ArbolDecision();
-    arbolDecision->crearArbol();
-    bool noServicio = false;
+void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios, ArbolDecision* arbolDecision) {
+
     if (colaPacientes->cantidadPacientes() > 0) {
         cout << " =========== Pacientes en espera =========== " << endl;
         colaPacientes->mostrarPacientes();
@@ -133,13 +131,15 @@ void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios) {
                 Nodo<Servicio>* nodoS = lista_servicios->encontrarServicio(resultado->getResultado());
                 Servicio s = nodoS->getDato();
                 AVL* avl = s.getPacientes();
-                avl->insertar(p);
                 p.setServicio(resultado->getResultado());
-                cout << p.getNombre() << " fue enviado a " << p.getServicio() << endl;
-                cout << "Paciente insertado en " << p.getServicio() << endl;
-
+                bool insertado = avl->insertar(p);
+                if (insertado) {
+                    cout << p.getNombre() << " fue enviado a " << p.getServicio() << endl;
+                    cout << "Paciente insertado en " << p.getServicio() << endl;
+                } else {
+                    cout << p.getNombre() << " ID duplicado " << "no se pudo enviar a " << p.getServicio() << endl;
+                }
             } else {
-                bool noServicio = true;
                 cout << "No hay servicio al que se pueda mandar" << endl;
             }
             colaPacientes->eliminarCabeza();
@@ -182,6 +182,8 @@ int main() {
     leerArchivo(colaPacientes);
     Lista_Servicios* servicios = new Lista_Servicios();
     llenarServicios(servicios);
+    ArbolDecision* arbolDecision = new ArbolDecision();
+    arbolDecision->crearArbol();
 
     string opcion;
 
@@ -195,12 +197,13 @@ int main() {
         cin >> opcion;
 
         if (opcion == "1") {
-            atenderPacientes(colaPacientes, servicios);
+            atenderPacientes(colaPacientes, servicios, arbolDecision);
 
         } else if (opcion == "2") {
             verDepartamentos(servicios);
 
         } else if (opcion == "3") {
+            // FALTA BUSCAR PACIENTE
 
         } else if (opcion == "4") {
             cout << "Cerrando sistema...." << endl;
@@ -211,6 +214,7 @@ int main() {
         }
 
     } while (opcion != "4");
+    delete arbolDecision;
     delete servicios;
     delete colaPacientes;
     return 0;

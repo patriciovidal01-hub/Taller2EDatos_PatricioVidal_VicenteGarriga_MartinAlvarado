@@ -39,11 +39,11 @@ NodoArbolDecision* NodoArbolDecision::preguntar(double datoPaciente) {
     return this->der;
 }
 
-NodoArbolDecision* NodoArbolDecision::izqNodo() {
+NodoArbolDecision* NodoArbolDecision::getIzq() {
     return this->izq;
 };
 
-NodoArbolDecision* NodoArbolDecision::derNodo() {
+NodoArbolDecision* NodoArbolDecision::getDer() {
     return this->der;
 };
 
