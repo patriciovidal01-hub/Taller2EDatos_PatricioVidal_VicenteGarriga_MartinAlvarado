@@ -104,3 +104,25 @@ bool ArbolDecision::esServicio(NodoArbolDecision *nodo) {
   }
      return false;
 };
+
+void ArbolDecision::inorden(NodoArbolDecision* nodo) const {
+    if (nodo == nullptr) return;
+    inorden(nodo->getIzq());
+    std::cout << nodo->getResultado() << " (" << nodo->getAtributo() << ") ";
+    inorden(nodo->getDer());
+}
+
+void ArbolDecision::preorden(NodoArbolDecision* nodo) const {
+    if (nodo == nullptr) return;
+    std::cout << nodo->getResultado() << " (" << nodo->getAtributo() << ") ";
+    preorden(nodo->getIzq());
+    preorden(nodo->getDer());
+}
+
+void ArbolDecision::postorden(NodoArbolDecision* nodo) const {
+    if (nodo == nullptr) return;
+    postorden(nodo->getIzq());
+    postorden(nodo->getDer());
+    std::cout << nodo->getResultado() << " (" << nodo->getAtributo() << ") ";
+}
+

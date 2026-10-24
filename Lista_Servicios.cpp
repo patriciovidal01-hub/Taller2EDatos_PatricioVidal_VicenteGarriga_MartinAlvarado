@@ -5,7 +5,15 @@
 #include "Lista_Servicios.h"
 
 Lista_Servicios::Lista_Servicios() : Lista<Servicio>(nullptr) {}
-Lista_Servicios::~Lista_Servicios(){}
+Lista_Servicios::~Lista_Servicios() {
+    Nodo<Servicio>* nodoS = cabeza;
+    while (nodoS != nullptr) {
+        Servicio s = nodoS->getDato();
+        AVL* avl = s.getPacientes();
+        delete avl;
+        nodoS = nodoS->getSiguiente();
+    }
+}
 Nodo<Servicio>* Lista_Servicios::encontrarServicio(std::string servicio) {
     Nodo<Servicio>* nodo = cabeza;
     while (nodo != nullptr) {

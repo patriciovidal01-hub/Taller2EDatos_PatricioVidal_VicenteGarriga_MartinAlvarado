@@ -23,3 +23,4 @@ int Servicio::getNumPacientes() { /// CAMBIAR METODO
 void Servicio::mostrarPacientes() { /// CAMBIAR METODO
    pacientes->mostrarInorden();
 }
+

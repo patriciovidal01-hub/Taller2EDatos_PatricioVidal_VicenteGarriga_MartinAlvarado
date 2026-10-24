@@ -4,7 +4,7 @@
 // Created by patri on 20-10-2026.
 //
 NodoArbolDecision::NodoArbolDecision(Atributo atributo, Operador operador, double comparar, NodoArbolDecision* izq, NodoArbolDecision* der): atributo(atributo), operador(operador),
-    comparar(comparar), servicio(-1), izq(izq), der(der), resultado(""), strop("") {}
+    comparar(comparar), servicio(-1), izq(izq), der(der), resultado("Pregunta"), strop("") {}
 NodoArbolDecision::NodoArbolDecision(std::string resultado): atributo(EDAD), operador(MENOR),
     comparar(0), servicio(-1), izq(nullptr), der(nullptr), resultado(resultado), strop(""){}
 
