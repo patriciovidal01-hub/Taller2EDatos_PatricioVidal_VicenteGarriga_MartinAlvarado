@@ -43,7 +43,6 @@ int AVL::contar(Nodo<Paciente>* nodo) const {
 int AVL::cantidad() const {
     return contar(raiz);
 }
-// <<< FIN NUEVO
 
 int AVL::getAltura() const {
     return altura(raiz);
@@ -89,6 +88,77 @@ bool AVL::insertar(const Paciente& paciente) {
     bool insertado = false;
     raiz = insertar(raiz, paciente, insertado);
     return insertado;
+}
+
+//busqueda por ID
+Nodo<Paciente>* AVL::buscar(const std::string& id, std::string& ruta) const {
+    Nodo<Paciente>* actual = raiz;
+    ruta = "";
+    while (actual != nullptr) {
+        if (!ruta.empty()) {
+            ruta += " -> ";
+        }
+        ruta += actual->getDato().getId();
+        if (id == actual->getDato().getId()) {
+            return actual;
+        } else if (id < actual->getDato().getId()) {
+            actual = actual->getIzq();
+        } else {
+            actual = actual->getDer();
+        }
+    }
+    return nullptr;
+}
+
+//PENDIENTE ROTACIONES, METODO VACIO TEMPORALMENTE
+Nodo<Paciente>* AVL::balancear(Nodo<Paciente>* nodo) {
+    return nodo;
+}
+
+Nodo<Paciente>* AVL::extraerMinimo(Nodo<Paciente>* nodo, Nodo<Paciente>*& minimo) {
+    if (nodo->getIzq() == nullptr) {
+        minimo = nodo;
+        return nodo->getDer();
+    }
+    nodo->setIzq(extraerMinimo(nodo->getIzq(), minimo));
+    actualizarAltura(nodo);
+    return balancear(nodo);
+}
+
+//eliminacion por ID
+Nodo<Paciente>* AVL::eliminar(Nodo<Paciente>* nodo, const std::string& id, bool& eliminado) {
+    if (nodo == nullptr) {
+        return nullptr; // el ID no existe
+    }
+    if (id < nodo->getDato().getId()) {
+        nodo->setIzq(eliminar(nodo->getIzq(), id, eliminado));
+    } else if (id > nodo->getDato().getId()) {
+        nodo->setDer(eliminar(nodo->getDer(), id, eliminado));
+    } else {
+        eliminado = true;
+        Nodo<Paciente>* izq = nodo->getIzq();
+        Nodo<Paciente>* der = nodo->getDer();
+        if (izq == nullptr || der == nullptr) { //hoja o un solo hijo
+            Nodo<Paciente>* hijo = (izq != nullptr) ? izq : der;
+            delete nodo;
+            return hijo;
+        }
+        //dos hijos
+        Nodo<Paciente>* sucesor = nullptr;
+        Nodo<Paciente>* nuevaDer = extraerMinimo(der, sucesor);
+        sucesor->setIzq(izq);
+        sucesor->setDer(nuevaDer);
+        delete nodo;
+        nodo = sucesor;
+    }
+    actualizarAltura(nodo);
+    return balancear(nodo);
+}
+
+bool AVL::eliminar(const std::string& id) {
+    bool eliminado = false;
+    raiz = eliminar(raiz, id, eliminado);
+    return eliminado;
 }
 
 void AVL::inorden(Nodo<Paciente>* nodo) const {
