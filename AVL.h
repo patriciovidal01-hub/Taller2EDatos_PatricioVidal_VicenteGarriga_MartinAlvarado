@@ -6,6 +6,7 @@
 #define TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_AVL_H
 #include "Nodo.h"
 #include "Paciente.h"
+#include <string>
 
 class AVL {
 private:
@@ -22,7 +23,9 @@ private:
     void mostrarFactores(Nodo<Paciente>* nodo) const;
     int contar(Nodo<Paciente>* nodo) const;
     void liberar(Nodo<Paciente>* nodo);
-
+    Nodo<Paciente>* eliminar(Nodo<Paciente>* nodo, const std::string& id, bool& eliminado);
+    Nodo<Paciente>* extraerMinimo(Nodo<Paciente>* nodo, Nodo<Paciente>*& minimo);
+    Nodo<Paciente>* balancear(Nodo<Paciente>* nodo); //aqui va las rotaciones PENDIENTE
 public:
     AVL();
     ~AVL();
@@ -36,6 +39,8 @@ public:
     void mostrarPreorden() const;
     void mostrarPostorden() const;
     void mostrarFactoresBalance() const; //factor de balance de cada nodo
+    Nodo<Paciente>* buscar(const std::string& id, std::string& ruta) const;
+    bool eliminar(const std::string& id); // false si el ID no existe
 };
 
 
