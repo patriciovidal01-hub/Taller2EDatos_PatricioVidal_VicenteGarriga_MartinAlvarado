@@ -121,6 +121,17 @@ Nodo<Paciente>* AVL::rotacionDerecha(Nodo<Paciente>* nodo) {
     return nuevaRaiz;
 }
 
+Nodo<Paciente>* AVL::rotacionIzquierda(Nodo<Paciente>* nodo) {
+    Nodo<Paciente>* nuevaRaiz = nodo->getDer();
+    Nodo<Paciente>* huerfano = nuevaRaiz->getIzq();
+    
+    nuevaRaiz->setIzq(nodo);
+    nodo->setDer(huerfano);
+//Actua como un espejo de la rotacionDerecha, lo que era der ahora es izq y viceversa
+    return nuevaRaiz;
+    } 
+}
+
 //PENDIENTE ROTACIONES, METODO VACIO TEMPORALMENTE
 Nodo<Paciente>* AVL::balancear(Nodo<Paciente>* nodo) {
     return nodo;
