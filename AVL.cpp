@@ -117,7 +117,10 @@ Nodo<Paciente>* AVL::rotacionDerecha(Nodo<Paciente>* nodo) {
 
     nuevaRaiz->setDer(nodo);
     nodo->setIzq(huerfano);
-
+    
+    //Implementacion de actualizar estaturas para asegurar el correcto funcionamiento de la rotacion a futuro
+    actualizarAltura(nodo);
+    actualizarAltura(nuevaRaiz);
     return nuevaRaiz;
 }
 
@@ -127,7 +130,12 @@ Nodo<Paciente>* AVL::rotacionIzquierda(Nodo<Paciente>* nodo) {
     
     nuevaRaiz->setIzq(nodo);
     nodo->setDer(huerfano);
-//Actua como un espejo de la rotacionDerecha, lo que era der ahora es izq y viceversa
+
+    //Implementacion de actualizar estaturas para asegurar el correcto funcionamiento de la rotacion a futuro
+    actualizarAltura(nodo);
+    actualizarAltura(nuevaRaiz);
+    
+    //Actua como un espejo de la rotacionDerecha, lo que era der ahora es izq y viceversa
     return nuevaRaiz;
     } 
 
