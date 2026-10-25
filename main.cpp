@@ -215,7 +215,7 @@ int main() {
                 bool existe = false;
                 //Estas 3 cositas nos ayudaran a poder tener los parametros necesarios para la busqueda.
                 cin >> idBuscar;
-                Nodo<Servicio>* departamentoActual = lista_servicios->getCabeza();
+                Nodo<Servicio>* departamentoActual = servicios->getCabeza();
     
                 while (departamentoActual != nullptr){
                     Servicio servActual = departamentoActual->getDato();
@@ -243,7 +243,7 @@ int main() {
                 int cantidadTotal = 0;
                 
                 cin >> nombreBuscar;
-                Nodo<Servicio>* departamentoActual = lista_servicios->getCabeza();
+                Nodo<Servicio>* departamentoActual = servicios->getCabeza();
                 
                 while (departamentoActual != nullptr) {
                     Servicio servActual = departamentoActual->getDato();
@@ -255,6 +255,7 @@ int main() {
                 if (cantidadTotal == 0) {
                     cout << "No existe el paciente en este hospital." << endl;
                     }
+                else if(cantidadTotal > 0) { cout << "Hay: " << cantidadTotal << " Pacientes que se llaman " << nombreBuscar << "En el hospital" << endl; 
                 cout << endl;
             }
         }
