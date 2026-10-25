@@ -130,7 +130,6 @@ Nodo<Paciente>* AVL::rotacionIzquierda(Nodo<Paciente>* nodo) {
 //Actua como un espejo de la rotacionDerecha, lo que era der ahora es izq y viceversa
     return nuevaRaiz;
     } 
-}
 
 //Rotaciones listas, METODO EN PROCESO DE CREACION
 Nodo<Paciente>* AVL::balancear(Nodo<Paciente>* nodo) {
@@ -159,13 +158,26 @@ Nodo<Paciente>* AVL::balancear(Nodo<Paciente>* nodo) {
             return rotacionDerecha(nodo); }
             }
                 
-         //Opcion 2: el arbol tiene un desbalance hacia la derecha y debemos aplicar una rotacion izquierda.
+        //Opcion 2: el arbol tiene un desbalance hacia la derecha y debemos aplicar una rotacion izquierda.
         else if(valorBalance <= -2){
-            rotacionIzquierda(nodo); //CAMBIAR CON CONDICIONALES NECESARIOS DE LINEA RECTA O ZIG-ZAG
-            //CONTINUAR
-            }
+            //EN PROCESO
+            
+            //verificamos si es un caso de linea recta o zigzag de der-izq
+            int valorBalanceDer = factorBalance(nodo->getDer());
+            
+            //Opcion 2.A, el desbalance es en forma de zig zag (1)
+            if(valorBalanceDer >= 1 ){
+            nodo->setDer(rotacionDerecha(nodo->getDer() ) );
+             return  rotacionIzquierda(nodo);
+                }
+            
+            //Opcion 2.B, el desbalance es en forma de linea recta
+            if(valorBalanceDer <= 0 ){
+              return rotacionIzquierda(nodo);
+                } 
+        }
     }
-    return nodo;
+return nodo; 
 }
 
 Nodo<Paciente>* AVL::extraerMinimo(Nodo<Paciente>* nodo, Nodo<Paciente>*& minimo) {
