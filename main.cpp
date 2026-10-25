@@ -240,6 +240,7 @@ int main() {
             else if(respuesta == "2"){
                 //Ingresar Logica de busqueda de nombre
                 //En proceso....
+                //Para poder crear la busqueda por nombre debemos de primero implementarla en AVL para poder usarla.... (EN PROCESO)
             }
         }
 
