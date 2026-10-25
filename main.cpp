@@ -238,9 +238,24 @@ int main() {
             }
                 
             else if(respuesta == "2"){
-                //Ingresar Logica de busqueda de nombre
-                //En proceso....
-                //Para poder crear la busqueda por nombre debemos de primero implementarla en AVL para poder usarla.... (EN PROCESO)
+                cout << "Ingrese el Nombre del paciente a buscar: " << endl;
+                string nombreBuscar = "";
+                int cantidadTotal = 0;
+                
+                cin >> nombreBuscar;
+                Nodo<Servicio>* departamentoActual = lista_servicios->getCabeza();
+                
+                while (departamentoActual != nullptr) {
+                    Servicio servActual = departamentoActual->getDato();
+                    AVL* arbololActual = servActual.getPacientes();
+                    cantidadTotal += arbololActual->mostrarBusquedaPaciente(nombreBuscar);
+                    departamentoActual = departamentoActual->getSiguiente();
+                    }
+                
+                if (cantidadTotal == 0) {
+                    cout << "No existe el paciente en este hospital." << endl;
+                    }
+                cout << endl;
             }
         }
 
