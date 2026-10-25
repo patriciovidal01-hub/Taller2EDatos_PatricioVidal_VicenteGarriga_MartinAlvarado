@@ -110,6 +110,17 @@ Nodo<Paciente>* AVL::buscar(const std::string& id, std::string& ruta) const {
     return nullptr;
 }
 
+//IMPLEMENTACION DE ROTACIONES
+Nodo<Paciente>* AVL::rotacionDerecha(Nodo<Paciente>* nodo) {
+    Nodo<Paciente>* nuevaRaiz = nodo->getIzq();
+    Nodo<Paciente>* huerfano = nuevaRaiz->getDer();
+
+    nuevaRaiz->setDer(nodo);
+    nodo->setIzq(huerfano);
+
+    return nuevaRaiz;
+}
+
 //PENDIENTE ROTACIONES, METODO VACIO TEMPORALMENTE
 Nodo<Paciente>* AVL::balancear(Nodo<Paciente>* nodo) {
     return nodo;
