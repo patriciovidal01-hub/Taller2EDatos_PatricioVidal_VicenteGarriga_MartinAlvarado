@@ -203,7 +203,35 @@ int main() {
             verDepartamentos(servicios);
 
         } else if (opcion == "3") {
-            // FALTA BUSCAR PACIENTE
+            // Finalizado
+           
+            cout << "Ingrese el ID del paciente a buscar: " << endl;
+            string idBuscar = "";
+            string rutaInicial = "";
+            bool existe = false;
+            //Estas 3 cositas nos ayudaran a poder tener los parametros necesarios para la busqueda.
+            cin >> idBuscar;
+            Nodo<Servicio>* departamentoActual = lista_servicios->getCabeza();
+
+            while (departamentoActual != nullptr){
+                Servicio servActual = departamentoActual->getDato();
+                AVL* arbololActual = servActual.getPacientes();
+                Nodo<Paciente>* encontrado = arbololActual->buscar(idBuscar, rutaInicial);
+        
+                if(encontrado != nullptr){
+                    existe = true;
+                    cout << "Paciente encontrado: " << encontrado->getDato().getNombre() << ". La ruta fue: " << rutaInicial << endl;
+                    break;
+                }   
+                else {
+                    departamentoActual = departamentoActual->getSiguiente();
+                    }
+                }
+        
+            if (existe != true) {
+                cout << "La ID ingresada no pertenece a ningun paciente del hospital." << endl;
+                }
+            }
 
         } else if (opcion == "4") {
             cout << "Cerrando sistema...." << endl;
