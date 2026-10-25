@@ -229,63 +229,78 @@ int main() {
             verDepartamentos(servicios);
 
         } else if (opcion == "3") {
-            // Finalizado
-           
-            cout << "Ingrese el ID o nombre del paciente a buscar: " << endl;
-            string idBuscar = "";
-            string rutaInicial = "";
-            bool existe = false;
-            //Estas 3 cositas nos ayudaran a poder tener los parametros necesarios para la busqueda.
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            getline(cin, idBuscar);
+            // Insertar funcion de buscar por nombre o por ID
+            cout << "Ingrese formato de busqueda: Buscar por ID (1) ó Buscar por Nombre (2) " << endl;
+            string respuesta;
+            cin >> respuesta;
 
-            Nodo<Servicio>* departamentoActual = servicios->getCabeza();
+            if(respuesta == "1"){
+                cout << "Ingrese el ID del paciente a buscar: " << endl;
+                string idBuscar = "";
+                string rutaInicial = "";
+                bool existe = false;
+                //Estas 3 cositas nos ayudaran a poder tener los parametros necesarios para la busqueda.
+                cin >> idBuscar;
+                Nodo<Servicio>* departamentoActual = servicios->getCabeza();
 
-            bool nombre = false;
-            for(char ch : idBuscar) {
-                if(!isdigit(ch)){
-                    nombre = true;
-                }
+                while (departamentoActual != nullptr){
+                    Servicio servActual = departamentoActual->getDato();
+                    AVL* arbolActual = servActual.getPacientes();
+                    Nodo<Paciente>* encontrado = arbolActual->buscar(idBuscar, rutaInicial);
+
+                    if(encontrado != nullptr){
+                        Paciente p = encontrado->getDato();
+                        existe = true;
+                        cout << "Paciente encontrado: " << endl;
+                        cout << "===========" << endl;
+                        cout << "ID: " << p.getId() << endl;
+                        cout << "Nombre: " << p.getNombre() << endl;
+                        cout << "Edad: " << p.getEdad() << endl;
+                        cout << "Departamento: " << servActual.getServicio() << endl;
+                        cout << "T: " << p.getTemperatura() << "° | ";
+                        cout << "D: " << p.getDolor() << " | ";
+                        cout << "TD: " << p.getTipoDolor() << " | ";
+                        cout << "TR: " << p.getTrauma() << " | ";
+                        cout << "SN: " << p.getSintomasNeurologicos() << " | ";
+                        cout << "RC: " << p.getRequiereCirugia() << " | ";
+                        cout << "DH: " << p.getDiasHospitalizacion() << endl;
+                        cout << "===========" << endl;
+                        cout << "" << endl;
+                        cout << "La ruta fue: " << rutaInicial << endl;
+                        break;
+                    }
+                    else {
+                        departamentoActual = departamentoActual->getSiguiente();
+                        }
+                    }
+
+                if (existe != true) {
+                    cout << "La ID ingresada no pertenece a ningun paciente del hospital." << endl;
+                    }
             }
 
-            while (departamentoActual != nullptr) {
-                Servicio servActual = departamentoActual->getDato();
-                AVL* arbolActual = servActual.getPacientes();
-                Nodo<Paciente>* encontrado;
-                if (nombre) {
-                    encontrado = arbolActual->buscarNombre(idBuscar, rutaInicial);
-                } else {
-                    encontrado = arbolActual->buscar(idBuscar, rutaInicial);
-                }
+            else if(respuesta == "2"){
+                cout << "Ingrese el Nombre del paciente a buscar: " << endl;
+                string nombreBuscar = "";
+                int cantidadTotal = 0;
 
-                if(encontrado != nullptr){
-                    Paciente p = encontrado->getDato();
-                    existe = true;
-                    cout << "Paciente encontrado: " << endl;
-                    cout << "===========" << endl;
-                    cout << "ID: " << p.getId() << endl;
-                    cout << "Nombre: " << p.getNombre() << endl;
-                    cout << "Edad: " << p.getEdad() << endl;
-                    cout << "Departamento: " << servActual.getServicio() << endl;
-                    cout << "T: " << p.getTemperatura() << "° | ";
-                    cout << "D: " << p.getDolor() << " | ";
-                    cout << "TD: " << p.getTipoDolor() << " | ";
-                    cout << "TR: " << p.getTrauma() << " | ";
-                    cout << "SN: " << p.getSintomasNeurologicos() << " | ";
-                    cout << "RC: " << p.getRequiereCirugia() << " | ";
-                    cout << "DH: " << p.getDiasHospitalizacion() << endl;
-                    cout << "===========" << endl;
-                    cout << "" << endl;
-                    cout << "La ruta fue: " << rutaInicial << endl;
-                    break;
-                } else {
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                getline(cin, nombreBuscar);
+
+                Nodo<Servicio>* departamentoActual = servicios->getCabeza();
+
+                while (departamentoActual != nullptr) {
+                    Servicio servActual = departamentoActual->getDato();
+                    AVL* arbolActual = servActual.getPacientes();
+                    cantidadTotal += arbolActual->mostrarBusquedaPaciente(nombreBuscar);
                     departamentoActual = departamentoActual->getSiguiente();
-                }
+                    }
+
+                if (cantidadTotal == 0) {
+                    cout << "No existe el paciente en este hospital." << endl;
+                    }
+                cout << endl;
             }
-        
-            if (existe != true) {
-                cout << "La ID ingresada no pertenece a ningun paciente del hospital." << endl;
-                }
         } else if (opcion == "4") {
             cout << "Cerrando sistema...." << endl;
             break;

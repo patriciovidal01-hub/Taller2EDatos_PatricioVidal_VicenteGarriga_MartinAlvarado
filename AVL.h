@@ -14,6 +14,7 @@ private:
 
     // metodos recursivos auxiliares
     Nodo<Paciente>* insertar(Nodo<Paciente>* nodo, const Paciente& paciente, bool& insertado);
+    int buscarPaciente(Nodo<Paciente>* nodo, std::string &nombrePaciente) const;
     int altura(Nodo<Paciente>* nodo) const;
     int factorBalance(Nodo<Paciente>* nodo) const;
     void actualizarAltura(Nodo<Paciente>* nodo);
@@ -40,6 +41,7 @@ public:
     void mostrarInorden() const;
     void mostrarPreorden() const;
     void mostrarPostorden() const;
+    int mostrarBusquedaPaciente(std::string &nombre) const;
     void mostrarFactoresBalance() const; //factor de balance de cada nodo
     Nodo<Paciente>* buscar(const std::string& id, std::string& ruta) const;
     Nodo<Paciente>* buscarNombre(const std::string& id, std::string& ruta) const;

@@ -279,20 +279,22 @@ void AVL::postorden(Nodo<Paciente>* nodo) const {
     cout << nodo->getDato().getNombre() << " (" << nodo->getDato().getId() << ") ";
 }
 
-void AVL::buscarPaciente(Nodo<Paciente>* nodo, string nombrePaciente) const {
-    if (nodo == nullptr) return;
+int AVL::buscarPaciente(Nodo<Paciente>* nodo, string &nombrePaciente) const {
+    if (nodo == nullptr) return 0;
+    int coincidencias = 0;
+    coincidencias += buscarPaciente(nodo->getIzq(), nombrePaciente);
+    if(nodo->getDato().getNombre() == nombrePaciente){
+        cout << nodo->getDato().getNombre() << " (" << nodo->getDato().getId() << ") ";
+        coincidencias++; }
 
-    buscarPaciente(nodo->getIzq(), nombrePaciente);
-    if(nodo->getDato().getNombre() == nombrePaciente){
-    cout << nodo->getDato().getNombre() << " (" << nodo->getDato().getId() << ") "; }
-
-    buscarPaciente(nodo->getDer(), nombrePaciente);
+    coincidencias += buscarPaciente(nodo->getDer(), nombrePaciente);
     //Sigue recorrido de Izquierda, raiz y derecha, permitiendo que al tener ID ordenadas de menor a mayor, 
-    //genere por defecto que los nombres vengan con una ID ya ordenada para que se vea mejor al printear. 
-} 
+    //genere por defecto que los nombres vengan con una ID ya ordenada para que se vea mejor al printear.
+    return coincidencias;
+}
 
-void AVL::mostrarBusquedaPaciente(string nombre) const {
-    buscarPaciente(raiz, nombre); }
+int AVL::mostrarBusquedaPaciente(string &nombre) const {
+    return buscarPaciente(raiz, nombre); }
 
 void AVL::mostrarFactores(Nodo<Paciente>* nodo) const {
     if (nodo == nullptr) return;
