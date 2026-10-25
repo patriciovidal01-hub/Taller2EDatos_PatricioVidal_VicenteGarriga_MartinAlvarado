@@ -143,12 +143,25 @@ Nodo<Paciente>* AVL::balancear(Nodo<Paciente>* nodo) {
 
         //Opcion 1: el arbol tiene un desbalance hacia la izquierda y debemos aplicar una rotacion derecha.
         if(valorBalance >= 2){
-            rotacionDerecha(nodo);
             //CONTINUAR
+            //Aca verificamos si es un caso de linea recta o zigzag de izq-der para poder balancearlo de forma correcta 
+            //lo hacemos mediante el valor del balance de la izquierda
+            int valorBalanceIzq = factorBalance(nodo->getIzq());
+            
+            //Opcion 1.A, el desbalance es en forma de linea recta (1 o 0)
+            if(valorBalanceIzq >= 0 ){
+            return rotacionDerecha(nodo);
             }
+            
+            //Opcion 1.B, el desbalance es en forma de zig-zag
+            if(valorBalanceIzq <= -1 ){
+            nodo->setIzq(rotacionIzquierda(nodo->getIzq() ) );
+            return rotacionDerecha(nodo); }
+            }
+                
          //Opcion 2: el arbol tiene un desbalance hacia la derecha y debemos aplicar una rotacion izquierda.
         else if(valorBalance <= -2){
-            rotacionIzquierda(nodo);
+            rotacionIzquierda(nodo); //CAMBIAR CON CONDICIONALES NECESARIOS DE LINEA RECTA O ZIG-ZAG
             //CONTINUAR
             }
     }
