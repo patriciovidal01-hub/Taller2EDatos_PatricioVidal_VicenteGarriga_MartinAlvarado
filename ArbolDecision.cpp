@@ -43,12 +43,12 @@ void ArbolDecision::crearArbol() {
 }
 
 
-NodoArbolDecision* ArbolDecision::evaluar(Paciente paciente) {
+NodoArbolDecision* ArbolDecision::evaluar(Paciente const &  paciente) const{
     std::cout << "Ruta:" << std::endl;
 
     NodoArbolDecision* nuevoNodo = this->raiz;
     double datoPaciente = 0;
-    std::string ruta = "";
+    std::string ruta;
     while (!esServicio(nuevoNodo)) {
         switch (nuevoNodo->getAtributo()) {
             case EDAD:
@@ -91,14 +91,15 @@ NodoArbolDecision* ArbolDecision::evaluar(Paciente paciente) {
         nuevoNodo = nuevoNodo->preguntar(datoPaciente);
         if (!esServicio(nuevoNodo)) {
             std::cout << " -> " ;
+        } else {
+            std::cout << " Positivo! ";
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
-
     }
     return nuevoNodo;
 };
 
-bool ArbolDecision::esServicio(NodoArbolDecision *nodo) {
+bool ArbolDecision::esServicio(NodoArbolDecision *nodo) const {
   if (nodo->getIzq() == nullptr && nodo->getDer() == nullptr) {
       return true;
   }
@@ -108,13 +109,21 @@ bool ArbolDecision::esServicio(NodoArbolDecision *nodo) {
 void ArbolDecision::inorden(NodoArbolDecision* nodo) const {
     if (nodo == nullptr) return;
     inorden(nodo->getIzq());
-    std::cout << nodo->getResultado() << " (" << nodo->getAtributo() << ") ";
+    if (esServicio(nodo)) {
+        std::cout << nodo->getResultado() << std::endl;
+    } else {
+        std::cout << nodo->getResultado() << " (" << enumToString(nodo->getAtributo()) << ") ";
+    }
     inorden(nodo->getDer());
 }
 
 void ArbolDecision::preorden(NodoArbolDecision* nodo) const {
     if (nodo == nullptr) return;
-    std::cout << nodo->getResultado() << " (" << nodo->getAtributo() << ") ";
+    if (esServicio(nodo)) {
+        std::cout << nodo->getResultado() << std::endl;
+    } else {
+        std::cout << nodo->getResultado() << " (" << enumToString(nodo->getAtributo()) << ") ";
+    }
     preorden(nodo->getIzq());
     preorden(nodo->getDer());
 }
@@ -123,6 +132,68 @@ void ArbolDecision::postorden(NodoArbolDecision* nodo) const {
     if (nodo == nullptr) return;
     postorden(nodo->getIzq());
     postorden(nodo->getDer());
-    std::cout << nodo->getResultado() << " (" << nodo->getAtributo() << ") ";
+    if (esServicio(nodo)) {
+        std::cout << nodo->getResultado() << std::endl;
+    } else {
+        std::cout << nodo->getResultado() << " (" << enumToString(nodo->getAtributo()) << ") ";
+    }
 }
 
+void ArbolDecision::mostrarIN() const {
+    if (this->raiz == nullptr) {
+        std::cout << "El arbol de decisión esta vacío" << std::endl;
+    }
+    inorden(this->raiz);
+    std::cout << std::endl;
+}
+
+void ArbolDecision::mostrarPR() const {
+    if (this->raiz == nullptr) {
+        std::cout << "El arbol de decisión esta vacío" << std::endl;
+    }
+    preorden(this->raiz);
+    std::cout << std::endl;
+}
+
+void ArbolDecision::mostrarPS() const{
+    if (this->raiz == nullptr) {
+        std::cout << "El arbol de decisión esta vacío" << std::endl;
+    }
+    postorden(this->raiz);
+    std::cout << std::endl;
+}
+
+std::string ArbolDecision::enumToString(int number) const{
+    switch (number) {
+        case 0:
+            return "EDAD";
+            break;
+        case 1:
+            return "TEMPERATURA";
+            break;
+        case 2:
+            return "PRESION";
+            break;
+        case 3:
+            return "DOLOR";
+            break;
+        case 4:
+            return "TIPODOLOR";
+            break;
+        case 5:
+            return "TRAUMA";
+            break;
+        case 6:
+            return "SINTOMAS";
+            break;
+        case 7:
+            return "CIRUGIA";
+            break;
+        case 8:
+            return "HOSPITALIZACION";
+            break;
+        default:
+            return "NINGUNO";
+            break;
+    }
+}

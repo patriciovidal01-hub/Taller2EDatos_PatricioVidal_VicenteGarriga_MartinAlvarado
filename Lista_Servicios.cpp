@@ -27,7 +27,7 @@ Nodo<Servicio>* Lista_Servicios::encontrarServicio(std::string servicio) {
 }
 
 Nodo<Servicio>* Lista_Servicios::servicioNumero(int numeroServicio) {
-    int contador = 1;
+    int contador = 0;
     if (cabeza != nullptr) {
         Nodo<Servicio>* nodo = cabeza;
         while (nodo != nullptr && numeroServicio != contador) {

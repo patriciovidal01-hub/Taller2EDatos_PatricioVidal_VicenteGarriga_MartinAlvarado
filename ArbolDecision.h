@@ -6,7 +6,7 @@
 #define TALLER2EDATOS_PATRICIOVIDAL_VICENTEGARRIGA_MARTINALVARADO_ARBOLDECISION_H
 #include "NodoArbolDecision.h"
 #include "Paciente.h"
-#include "Servicio.h"
+
 
 class ArbolDecision {
 private:
@@ -17,11 +17,15 @@ public:
     ~ArbolDecision();
     void liberar(NodoArbolDecision* nodo);
     void crearArbol();
-    NodoArbolDecision* evaluar(Paciente paciente);
-    bool esServicio(NodoArbolDecision* nodo);
+    NodoArbolDecision* evaluar(Paciente const &paciente) const;
+    bool esServicio(NodoArbolDecision* nodo) const;
     void inorden(NodoArbolDecision *nodo) const;
     void preorden(NodoArbolDecision *nodo) const;
     void postorden(NodoArbolDecision *nodo) const;
+    void mostrarIN() const;
+    void mostrarPR() const;
+    void mostrarPS() const;
+    std::string enumToString(int number) const;
 };
 
 

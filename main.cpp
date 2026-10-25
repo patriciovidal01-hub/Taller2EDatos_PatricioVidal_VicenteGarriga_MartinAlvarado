@@ -30,6 +30,18 @@ bool esBinario(int valor) {
     return valor == 0 || valor == 1;
 }
 
+bool variablesCorrectas(int ed, float tp, int pr, int dl,int dh) {
+    if (ed >= 0 && ed <= 120 && tp > 0 && pr > 0 && dl <= 10 && dl >= 0 && dh >= 0) {return true;};
+    return false;
+}
+
+bool tipoDolorExiste(string const &tp) {
+    string tipoDolores[] = {"pecho", "cabeza", "abdomen", "extremidad", "otro"};
+    for (string s : tipoDolores) {
+        if (s == tp) {return true;}
+    }
+    return false;
+}
 void leerArchivo(Queue* colaPacientes ) {
     ifstream archivo("pacientes.txt");
     string linea;
@@ -55,29 +67,45 @@ void leerArchivo(Queue* colaPacientes ) {
             //Finalizado
 
             try{
-            int edad = stoi(edad_str);
-            float temperatura = stof(temp_str);
-            int presion = stoi(presion_str);
-            int nivel_dolor = stoi(dolor_str);
-            
-            int trauma = stoi(trauma_str);
-            int sintomas_neuro = stoi(sint_neu_str);
-            int cirugia = stoi(cirugia_str);
-                
-            int dias_hospitalizacion = stoi(dias_hospitalizacion_str);
+                bool idValido;
+                if (id == "") {
+                    idValido = false;
+                } else {
+                    idValido = true;
+                }
 
-                //Aca hacemos la validacion de que sea 0"s y 1"s wazaaa.
-                if(esBinario(trauma) && esBinario(sintomas_neuro) && esBinario(cirugia)){
-                   Paciente p(id, nombre, edad, temperatura, presion, nivel_dolor, tipo_dolor_str, trauma, sintomas_neuro, cirugia, dias_hospitalizacion ); // Cambiar
+                for(char ch : id) {
+                    if(!isdigit(ch)){
+                        idValido = false;
+                    }
+                }
+                int edad = stoi(edad_str);
+                float temperatura = stof(temp_str);
+                int presion = stoi(presion_str);
+                int nivel_dolor = stoi(dolor_str);
+
+                int trauma = stoi(trauma_str);
+                int sintomas_neuro = stoi(sint_neu_str);
+                int cirugia = stoi(cirugia_str);
+
+                int dias_hospitalizacion = stoi(dias_hospitalizacion_str);
+
+                //Validación de que los datos sean correctos.
+                if(esBinario(trauma) && esBinario(sintomas_neuro) && esBinario(cirugia) && variablesCorrectas(edad, temperatura, presion, nivel_dolor, dias_hospitalizacion) && tipoDolorExiste(tipo_dolor_str) && idValido && nombre != ""){
+                   if (idDuplicado(colaPacientes, id)) {
+                       cout << "Error: ID duplicado " << id << endl;
+                       continue;
+                   }
+                    Paciente p(id, nombre, edad, temperatura, presion, nivel_dolor, tipo_dolor_str, trauma, sintomas_neuro, cirugia, dias_hospitalizacion ); // Cambiar
                     colaPacientes->agregarNodo(new Nodo<Paciente>(p));
                 }        
                 else {
                     cout << "Error: Datos de confirmacion inválidos en el paciente " << id << endl;
                 }
+
             } 
             catch (const exception& e) {
                 cout << "Error Desconocido, Algunos o todos los datos del paciente estan corruptos y son ilegibles" << endl;
-                continue;
             }
         }
         archivo.close();
@@ -124,8 +152,20 @@ void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios, Ar
         for (int i = 0; i < numeroAtender; i++) {
             Nodo<Paciente>* nodo = colaPacientes->getCabeza();
             Paciente p = nodo->getDato();
-            NodoArbolDecision* resultado = arbolDecision->evaluar(p);
 
+            cout << "ID: " << p.getId() << endl;
+            cout << "Nombre: " << p.getNombre() << endl;
+            cout << "Edad: " << p.getEdad() << endl;
+            cout << "Temperatura: " << p.getTemperatura() << endl;
+            cout << "Dolor: " << p.getDolor() << endl;
+            cout << "TipoDolor: " << p.getTipoDolor() << endl;
+            cout << "Trauma: " << p.getTrauma() << endl;
+            cout << "Sintomas Neurologicos: " << p.getSintomasNeurologicos() << endl;
+            cout << "Requiere Cirugia: " << p.getRequiereCirugia() << endl;
+            cout << "Dias Hospitalizacion: " << p.getDiasHospitalizacion() << endl;
+            cout << "" << endl;
+
+            NodoArbolDecision* resultado = arbolDecision->evaluar(p);
             // METODO EN MAIN PARA DETERMINAR SERVICIO
             if (lista_servicios->encontrarServicio(resultado->getResultado()) != nullptr) {
                 Nodo<Servicio>* nodoS = lista_servicios->encontrarServicio(resultado->getResultado());
@@ -136,6 +176,7 @@ void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios, Ar
                 if (insertado) {
                     cout << p.getNombre() << " fue enviado a " << p.getServicio() << endl;
                     cout << "Paciente insertado en " << p.getServicio() << endl;
+                    cout << "" << endl;
                 } else {
                     cout << p.getNombre() << " ID duplicado " << "no se pudo enviar a " << p.getServicio() << endl;
                 }
@@ -151,30 +192,15 @@ void atenderPacientes(Queue* colaPacientes, Lista_Servicios* lista_servicios, Ar
 }
 
 void verDepartamentos(Lista_Servicios* lista_servicios){
-    Nodo<Servicio>* aux = lista_servicios->getCabeza();
     int ctdServicios = lista_servicios->cantidadServicios();
     for (int i = 0; i < ctdServicios; i++) {
-        cout << i+1 << ". " << aux->getDato().getServicio() << endl;
-        aux = aux->getSiguiente();
+        Servicio servicioVer = lista_servicios->servicioNumero(i)->getDato();
+
+        cout << " =========== Estado " << servicioVer.getServicio() << " =========== " << endl;
+        cout << "Pacientes en el departamento de " << servicioVer.getServicio() << " es: "<< servicioVer.getNumPacientes() << endl;
+        servicioVer.mostrarPacientes();
+        cout << endl;
     }
-    int opcion;
-    cout << endl;
-    cout << "Seleccionar opcion: ";
-    cin >> opcion;
-
-    while (cin.fail() || opcion > ctdServicios || opcion < 1 ) {
-        cout << "Opcion Invalida" << endl;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin >> opcion;
-    }
-
-    Servicio servicioVer = lista_servicios->servicioNumero(opcion)->getDato();
-
-    cout << " =========== Estado " << servicioVer.getServicio() << " =========== " << endl;
-    cout << "Pacientes en el departamento de " << servicioVer.getServicio() << " es: "<< servicioVer.getNumPacientes() << endl;
-    servicioVer.mostrarPacientes();
-    cout << endl;
 }
 
 int main() {
@@ -203,47 +229,63 @@ int main() {
             verDepartamentos(servicios);
 
         } else if (opcion == "3") {
-            // Insertar funcion de buscar por nombre o por ID
-            cout << "Ingrese formato de busqueda: Buscar por ID (1) ó Buscar por Nombre (2) " << endl;
-            string respuesta;
-            cin >> respuesta;
-            
-            if(respuesta == "1"){
-                cout << "Ingrese el ID del paciente a buscar: " << endl;
-                string idBuscar = "";
-                string rutaInicial = "";
-                bool existe = false;
-                //Estas 3 cositas nos ayudaran a poder tener los parametros necesarios para la busqueda.
-                cin >> idBuscar;
-                Nodo<Servicio>* departamentoActual = lista_servicios->getCabeza();
-    
-                while (departamentoActual != nullptr){
-                    Servicio servActual = departamentoActual->getDato();
-                    AVL* arbololActual = servActual.getPacientes();
-                    Nodo<Paciente>* encontrado = arbololActual->buscar(idBuscar, rutaInicial);
-            
-                    if(encontrado != nullptr){
-                        existe = true;
-                        cout << "Paciente encontrado: " << encontrado->getDato().getNombre() << ". La ruta fue: " << rutaInicial << endl;
-                        break;
-                    }   
-                    else {
-                        departamentoActual = departamentoActual->getSiguiente();
-                        }
-                    }
-            
-                if (existe != true) {
-                    cout << "La ID ingresada no pertenece a ningun paciente del hospital." << endl;
-                    }
-            }
-                
-            else if(respuesta == "2"){
-                //Ingresar Logica de busqueda de nombre
-                //En proceso....
-                //Para poder crear la busqueda por nombre debemos de primero implementarla en AVL para poder usarla.... (EN PROCESO)
-            }
-        }
+            // Finalizado
+           
+            cout << "Ingrese el ID o nombre del paciente a buscar: " << endl;
+            string idBuscar = "";
+            string rutaInicial = "";
+            bool existe = false;
+            //Estas 3 cositas nos ayudaran a poder tener los parametros necesarios para la busqueda.
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            getline(cin, idBuscar);
 
+            Nodo<Servicio>* departamentoActual = servicios->getCabeza();
+
+            bool nombre = false;
+            for(char ch : idBuscar) {
+                if(!isdigit(ch)){
+                    nombre = true;
+                }
+            }
+
+            while (departamentoActual != nullptr) {
+                Servicio servActual = departamentoActual->getDato();
+                AVL* arbolActual = servActual.getPacientes();
+                Nodo<Paciente>* encontrado;
+                if (nombre) {
+                    encontrado = arbolActual->buscarNombre(idBuscar, rutaInicial);
+                } else {
+                    encontrado = arbolActual->buscar(idBuscar, rutaInicial);
+                }
+
+                if(encontrado != nullptr){
+                    Paciente p = encontrado->getDato();
+                    existe = true;
+                    cout << "Paciente encontrado: " << endl;
+                    cout << "===========" << endl;
+                    cout << "ID: " << p.getId() << endl;
+                    cout << "Nombre: " << p.getNombre() << endl;
+                    cout << "Edad: " << p.getEdad() << endl;
+                    cout << "Departamento: " << servActual.getServicio() << endl;
+                    cout << "T: " << p.getTemperatura() << "° | ";
+                    cout << "D: " << p.getDolor() << " | ";
+                    cout << "TD: " << p.getTipoDolor() << " | ";
+                    cout << "TR: " << p.getTrauma() << " | ";
+                    cout << "SN: " << p.getSintomasNeurologicos() << " | ";
+                    cout << "RC: " << p.getRequiereCirugia() << " | ";
+                    cout << "DH: " << p.getDiasHospitalizacion() << endl;
+                    cout << "===========" << endl;
+                    cout << "" << endl;
+                    cout << "La ruta fue: " << rutaInicial << endl;
+                    break;
+                } else {
+                    departamentoActual = departamentoActual->getSiguiente();
+                }
+            }
+        
+            if (existe != true) {
+                cout << "La ID ingresada no pertenece a ningun paciente del hospital." << endl;
+                }
         } else if (opcion == "4") {
             cout << "Cerrando sistema...." << endl;
             break;
@@ -258,6 +300,5 @@ int main() {
     delete colaPacientes;
     return 0;
 }
-
 
 

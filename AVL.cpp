@@ -109,6 +109,29 @@ Nodo<Paciente>* AVL::buscar(const std::string& id, std::string& ruta) const {
     }
     return nullptr;
 }
+// Buscar por nomnbre
+Nodo<Paciente>* AVL::buscarNombre(const std::string& nombre, std::string& ruta) const{
+    Nodo<Paciente>* actual = raiz;
+    ruta = "";
+    Nodo<Paciente>* p = nullptr;
+    inordenNombre(actual, ruta, nombre, p);
+    return p;
+
+}
+
+void AVL::inordenNombre(Nodo<Paciente>* actual, std::string &ruta, string nombre,  Nodo<Paciente>* &p) const{
+    if (actual == nullptr) return;
+    inordenNombre(actual->getIzq(), ruta, nombre,  p);
+    if (!ruta.empty()) {
+        ruta += " -> ";
+    }
+    ruta += actual->getDato().getNombre();
+    if (actual->getDato().getNombre() == nombre) {
+        p = actual;
+    }
+    inordenNombre(actual->getDer(), ruta, nombre,  p);
+}
+
 
 //IMPLEMENTACION DE ROTACIONES
 Nodo<Paciente>* AVL::rotacionDerecha(Nodo<Paciente>* nodo) {
@@ -117,24 +140,25 @@ Nodo<Paciente>* AVL::rotacionDerecha(Nodo<Paciente>* nodo) {
 
     nuevaRaiz->setDer(nodo);
     nodo->setIzq(huerfano);
-    
+
     //Implementacion de actualizar estaturas para asegurar el correcto funcionamiento de la rotacion a futuro
     actualizarAltura(nodo);
     actualizarAltura(nuevaRaiz);
+
     return nuevaRaiz;
 }
 
 Nodo<Paciente>* AVL::rotacionIzquierda(Nodo<Paciente>* nodo) {
     Nodo<Paciente>* nuevaRaiz = nodo->getDer();
     Nodo<Paciente>* huerfano = nuevaRaiz->getIzq();
-    
+
     nuevaRaiz->setIzq(nodo);
     nodo->setDer(huerfano);
 
     //Implementacion de actualizar estaturas para asegurar el correcto funcionamiento de la rotacion a futuro
     actualizarAltura(nodo);
     actualizarAltura(nuevaRaiz);
-    
+
     //Actua como un espejo de la rotacionDerecha, lo que era der ahora es izq y viceversa
     return nuevaRaiz;
     } 
