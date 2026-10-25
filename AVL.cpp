@@ -132,8 +132,26 @@ Nodo<Paciente>* AVL::rotacionIzquierda(Nodo<Paciente>* nodo) {
     } 
 }
 
-//PENDIENTE ROTACIONES, METODO VACIO TEMPORALMENTE
+//Rotaciones listas, METODO EN PROCESO DE CREACION
 Nodo<Paciente>* AVL::balancear(Nodo<Paciente>* nodo) {
+    //Aca debemos de considerar mediante el valor que arroje la funcion factorBalance el balance que tenemos, en base a este valor
+    //podamos ver hacia que lado esta desequilibrado y aplicar la rotacion correspondiente
+    int valorBalance = factorBalance(nodo);
+
+    if(valorBalance >= 2 || valorBalance <= -2){
+        //Encerramos los 2 casos posibles de este valor, para cuando el arbol presenta un desequilibrio
+
+        //Opcion 1: el arbol tiene un desbalance hacia la izquierda y debemos aplicar una rotacion derecha.
+        if(valorBalance >= 2){
+            rotacionDerecha(nodo);
+            //CONTINUAR
+            }
+         //Opcion 2: el arbol tiene un desbalance hacia la derecha y debemos aplicar una rotacion izquierda.
+        else if(valorBalance <= -2){
+            rotacionIzquierda(nodo);
+            //CONTINUAR
+            }
+    }
     return nodo;
 }
 
