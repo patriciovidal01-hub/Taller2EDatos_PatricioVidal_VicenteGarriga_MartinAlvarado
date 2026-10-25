@@ -81,7 +81,7 @@ Nodo<Paciente>* AVL::insertar(Nodo<Paciente>* nodo, const Paciente& paciente, bo
         return nodo;
     }
     actualizarAltura(nodo);
-    return nodo;
+    return balancear(nodo);
 }
 
 bool AVL::insertar(const Paciente& paciente) {
