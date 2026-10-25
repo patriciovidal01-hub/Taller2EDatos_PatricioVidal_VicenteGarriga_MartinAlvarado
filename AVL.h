@@ -20,6 +20,7 @@ private:
     void inorden(Nodo<Paciente>* nodo) const;
     void preorden(Nodo<Paciente>* nodo) const;
     void postorden(Nodo<Paciente>* nodo) const;
+    Nodo<Paciente>* rotacionDerecha(Nodo<Paciente>* nodo); //agregamos la funcion de equilibrar si es que hay desbalance hacia la izq
     void mostrarFactores(Nodo<Paciente>* nodo) const;
     int contar(Nodo<Paciente>* nodo) const;
     void liberar(Nodo<Paciente>* nodo);
